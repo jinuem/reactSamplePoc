@@ -1,3 +1,15 @@
+INSTALL CREATE REACT APP
+
+npm install -g create-react-app
+
+create-react-app my-app
+
+cd my-app
+
+replace the src with inside the my-app
+
+npm start
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
