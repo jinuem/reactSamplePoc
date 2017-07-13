@@ -1,0 +1,8 @@
+.commentContainer {
+    margin: 10px 0;
+    border: 1px solid #eaeaea;
+    padding: 10px;
+}
+.commentContainer textarea {
+    margin:10px 0;
+}
