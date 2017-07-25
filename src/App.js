@@ -2,15 +2,34 @@ import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
+import * as comment from './service/comment';
 
 class App extends Component {
-     constructor(props) {
+    constructor(props) {
     super(props);
-    this.state = {comments: ['This is First','This is Second','This is Third']};
+    this.state = {comments:[]};
     this.removeComment = this.removeComment.bind(this);
     this.updateComment = this.updateComment.bind(this);
+    this.getComment = this.getComment.bind(this);
     this.addNew = this.addNew.bind(this);
+  }
+  componentDidMount (){
+    
+     this.getComment();
+     //comment.fetchComments()
+  }
 
+  getComment(){
+        
+        
+           comment.fetchComments().then((data)=>{
+             console.log(data)
+            var newData = this.state.comments.concat([data]);  
+            this.setState({comments: data});
+            console.log(this.state.comments)
+         });
+          
+    
   }
   removeComment(i){
     var commentsCopy =this.state.comments;
@@ -18,17 +37,25 @@ class App extends Component {
     this.setState({comments:commentsCopy})
   }
 
-  updateComment(updateText,i){
-    var commentsCopy = this.state.comments;
-    commentsCopy[i] = updateText;
-    this.setState({comments:commentsCopy})
+  updateComment(updateText,i,id){
+        comment.updateComment(updateText,id).then((response)=>{
+             var commentsCopy = this.state.comments;
+             commentsCopy[i].TEXT = updateText;
+             this.setState({comments:commentsCopy})
+         });
+    
   }
   addNew(event){
     event.preventDefault();
-    let newText =    this.refs.new.value;
-    var commentsCopy = this.state.comments;
-    commentsCopy.push(newText);
-    this.setState({comments:commentsCopy})
+            let newText =  new Object();
+            newText.TEXT =   this.refs.new.value;
+            comment.addComment(newText.TEXT).then((response)=>{
+                console.log(response)
+                var commentsCopy = this.state.comments;
+                commentsCopy.push(newText);
+                this.setState({comments:commentsCopy})
+         });
+
   }
 
   render() {
@@ -46,10 +73,11 @@ class App extends Component {
       </div>
       </div>
       <div className="row">
-        {this.state.comments.map((text,i) => {
+
+        {this.state.comments.map((comment,i) => {
                                     return(
-                                  <Home key={i} index={i}  deleteFromApp={this.removeComment} updateToApp={this.updateComment} >
-                                      {text}
+                                  <Home key={i} index={i} commentId={comment.ID} deleteFromApp={this.removeComment} updateToApp={this.updateComment} >
+                                      {comment.TEXT}
                                     </Home>
                                     ) 
                           })}

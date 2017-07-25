@@ -20,7 +20,7 @@ class Home extends Component {
 
 
     this.setState({editing:false})
-    this.props.updateToApp(this.refs.newComment.value,this.props.index)
+    this.props.updateToApp(this.refs.newComment.value,this.props.index,this.props.commentId)
   }
 
   editingMode(){

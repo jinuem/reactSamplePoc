@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './Header.css';
-
+import * as comment from '../../service/comment';
 class Header extends Component {
+  fetchCommand(){
+   comment.fetchComments()
+  }
   render() {
     return (
       <div>
@@ -17,7 +20,7 @@ class Header extends Component {
              
               <li className="active"><a href="#">Home</a></li>
             </ul>
-
+          
           </div>
         </div>
       </nav>
